@@ -1,0 +1,119 @@
+/* ============================================================
+   管理画面 admin.css (style.css の変数・基本スタイルを継承)
+   ============================================================ */
+.interval-ctrl{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.interval-ctrl label{ font-size:15px; color:var(--navy); font-weight:700; }
+
+/* お知らせ時刻: パネル上部の簡易サマリー(読み取り専用チップ) */
+.time-summary{ display:flex; flex-wrap:wrap; gap:10px; margin:14px 0; }
+
+/* お知らせ時刻の設定パネル: PCは見出し+ボタンを同じ行に、モーダルサマリーの下にボタン欄。
+   index.htmlの.cal-head-rowとは無関係の専用クラス(クラス名の使い回しによる事故防止のため分離)。 */
+.time-panel{
+  display:grid;
+  grid-template-columns:1fr auto;
+  grid-template-areas: "title btn" "summary summary";
+  align-items:center;
+  gap:6px 12px;
+}
+.tp-title{ grid-area:title; margin:0; }
+.tp-btn{ grid-area:btn; }
+.tp-summary{ grid-area:summary; }
+.ts-chip{ background:var(--tint); border:1px solid var(--line); border-radius:10px; padding:10px 14px; font-size:14px; color:var(--navy); }
+.ts-chip strong{ font-size:17px; margin-left:4px; color:var(--sky2); } /* ③ 時刻の数字を目立たせる */
+
+/* 服薬時刻の設定モーダル */
+.modal-overlay{
+  display:none; position:fixed; inset:0; z-index:1000;
+  background:rgba(15,31,58,.55); align-items:center; justify-content:center; padding:20px;
+}
+.modal-overlay.is-open{ display:flex; }
+.modal-box{
+  width:100%; max-width:420px; max-height:85vh; overflow-y:auto;
+  background:#fff; border-radius:16px; padding:28px;
+  box-shadow:0 20px 60px rgba(0,0,0,.28);
+}
+.modal-ttl{ font-size:19px; color:var(--navy); font-weight:700; margin:0 0 18px; }
+.time-rows{ margin-bottom:16px; }
+.time-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 0; border-bottom:1px solid var(--line); }
+.time-row:first-child{ border-top:1px solid var(--line); }
+.tr-label{ font-size:15px; color:var(--navy); font-weight:700; }
+/* ② 時刻のプルダウン(時・分)。文字色は元の色(--ink)に戻す(表示部のサマリーだけ色付き) */
+.tr-picker{ display:inline-flex; align-items:center; gap:6px; }
+.tr-colon{ font-size:17px; font-weight:700; color:var(--ink); }
+.time-row select.t-hour, .time-row select.t-min{
+  font-family:inherit; font-size:17px; font-weight:700;
+  padding:8px 10px; border:1px solid var(--line); border-radius:8px;
+  background:#fff; color:var(--ink); cursor:pointer;
+}
+.modal-btn-row{ display:flex; justify-content:flex-end; gap:10px; margin-top:6px; }
+
+/* パスワード */
+.pass-row{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
+.pass-row label{ font-size:14px; color:var(--navy); font-weight:700; min-width:170px; }
+.pass-row input{
+  flex:1; min-width:180px; font-size:16px; padding:9px 12px;
+  border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--ink);
+}
+
+/* 設定のリセット欄:説明文とボタンの間の余白確保(PC/スマホ共通) */
+.panel-note + .btn-row{ margin-top:14px; }
+
+/* 設定のリセット欄:「当日分」「すべて」の2ブロックを区切り線で分ける */
+.reset-block + .reset-block{ margin-top:22px; padding-top:20px; border-top:1px solid var(--line); }
+
+/* ボタン */
+.btn-row{ display:flex; gap:10px; flex-wrap:wrap; }
+.btn-primary, .btn-plain{
+  font-family:inherit; font-size:15px; border-radius:8px; padding:10px 22px; cursor:pointer;
+  border:1px solid var(--line);
+}
+.btn-primary{ background:var(--navy); color:#fff; border-color:var(--navy); }
+.btn-primary:hover{ background:#0F1F3A; }
+.btn-plain{ background:var(--tint); color:var(--navy); }
+.btn-plain:hover{ background:#D2DFF1; }
+.btn-primary:disabled, .btn-plain:disabled{ opacity:.45; cursor:not-allowed; }
+
+/* メッセージ */
+.save-msg{ font-size:14px; margin:12px 0 0; min-height:1.2em; }
+.save-msg.ok{ color:var(--ok); }
+.save-msg.ng{ color:var(--ng); }
+
+/* パスワード変更欄の説明文(panel-note)と、直後の現在のパスワード入力欄との余白(PC/スマホ共通) */
+.panel-note + .pass-row{ margin-top:18px; }
+/* PC表示: 説明文の行間を確保 */
+@media(min-width:601px){
+  .panel-note{ line-height:1.9; }
+}
+
+/* スマホ */
+@media(max-width:600px){
+  .interval-ctrl{ justify-content:space-between; }
+  .time-row{ flex-direction:row; align-items:center; }
+  .time-row select.t-hour, .time-row select.t-min{ padding:8px 8px; }
+  .modal-box{ padding:22px; max-width:100%; }
+  /* 時刻設定ボタンの下の余白を確保し、朝/昼/夕/お薬のセットのサマリーを2行2列で揃える */
+  .time-panel{ grid-template-columns:1fr; grid-template-areas: "title" "summary" "btn"; gap:10px; }
+  .tp-title{ text-align:left; }
+  .tp-btn{ width:100%; margin-bottom:18px; }
+  .time-summary{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+  .ts-chip{ text-align:center; font-size:15px; }
+  .ts-chip strong{ font-size:18px; } /* スマホでお知らせ時刻を見やすく少し拡大 */
+  /* panel-noteの下の空メッセージ欄が余白を広く見せてしまうのを抑える */
+  .save-msg{ min-height:0; margin-top:6px; }
+  /* パスワードの変更欄:ラベルの長さに関係なく、入力欄を常にカード幅いっぱいで統一 */
+  .pass-row{ flex-direction:column; align-items:stretch; gap:6px; }
+  .pass-row label{ min-width:0; }
+  .pass-row input{ width:100%; }
+}
+
+/* パスワードゲート */
+.gate{ position:fixed; inset:0; z-index:9999; background:#fff; display:flex; align-items:center; justify-content:center; padding:24px; }
+.gate-box{ width:100%; max-width:340px; text-align:center; border:1px solid var(--line); border-radius:14px; padding:28px 24px; background:#fff; }
+.gate-ttl{ color:var(--navy); font-size:22px; margin:0 0 6px; }
+.gate-note{ color:var(--gray); font-size:14px; margin:0 0 16px; }
+.gate input{ width:100%; font-size:16px; padding:11px 12px; border:1px solid var(--line); border-radius:8px; margin-bottom:12px; background:#fff; color:var(--ink); }
+.gate .btn-primary{ width:100%; }
+.gate .save-msg{ margin-top:12px; }
+
+/* 管理番号: PBX-ADM-CSS-260708C (スマホ表示のみ.ts-chipのフォントサイズを拡大(全体15px/時刻strong18px)。旧260708Bを置換) */
